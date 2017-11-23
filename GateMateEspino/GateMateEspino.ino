@@ -126,12 +126,9 @@ void handleSetButton() {
     //If the decrypted cipherSt is equal to the byte comp
     //go ahead and open the gate
     if (memcmp(out, comp, sizeof(out)) == 0) {
-      Serial.print("startbutton");
-      //digitalWrite(GATE_PIN, HIGH);
-      //delay(500);
-      //digitalWrite(GATE_PIN, LOW);
-      Serial.println("endtbutton");
-      
+      digitalWrite(GATE_PIN, HIGH);
+      delay(500);
+      digitalWrite(GATE_PIN, LOW);    
     }
     aes.clean();
     
