@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="images/favicon.png">
+
+    <title>Gate Mate</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/nouislider.css" rel="stylesheet">
+    
+    <!-- Custom styles for this template -->
+    <link href="css/jumbotron-narrow.css" rel="stylesheet">
+    <script src="js/scripts.js"></script>
+    <script src="js/nouislider.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a onclick="button()" role="button">GO</a></li>
+
+          </ul>
+        </nav>
+        <h3 class="text-muted">Gate Mate</h3>
+      </div>
+
+      <div class="jumbotron">
+      
+       <div class="row">
+        
+        <div class="col-xs-3 nopadding">
+        <div id="range"></div>
+        		<script>
+		var range = document.getElementById('range');
+
+		range.style.height = '200px';
+		range.style.margin = '0 10px 10px';
+
+		noUiSlider.create(range, {
+		start: 140,
+		connect: [true, false],
+		orientation: "vertical",
+		direction: 'rtl',
+		range: {
+			'min': 100,
+			'max': 155
+			},
+		});
+	
+		range.noUiSlider.on('update', function( values, handle ) {    	
+    	Slider2();
+    });
+				
+		</script>
+
+        </div>
+        <div class="col-xs-9 nopadding">
+        
+        <iframe class = "capturePic1" id='capturePic' src='http://teknojelly.ddnsgeek.com:82/stream' width=320 height=240 onerror="if (this.src != 'images/default.jpg') this.src = 'images/default.jpg';">
+        </iframe>
+        </div>
+      </div>
+      <div class="row" >
+      <div class="col-xs-3">
+      </div>
+      <div class="col-xs-9">
+      <div id="slider"></div>
+      <script>
+		var slider = document.getElementById('slider');
+
+		
+		
+
+		noUiSlider.create(slider, {
+		start: 100,
+		connect: [true, false],
+		orientation: "horizontal",
+		range: {
+			'min': 5,
+			'max': 170
+			},
+		});
+	
+		slider.noUiSlider.on('update', function( values, handle ) {    	
+    	Slider();
+    });
+				
+		</script>
+
+      </div>
+
+      </div>
+      </div>
+     
+      
+     </div>
+
+      <footer class="footer" >
+        <p>Teknojelly</p>
+      </footer>
+
+    </div> <!-- /container -->
+  
+  
+  
+  </body>
+</html>
