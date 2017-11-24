@@ -161,8 +161,6 @@ void setup() {
   for (int i = 0; i < initHash.length(); ++i)
       {
         EEPROM.write(i, initHash[i]);
-        Serial.print("Wrote: ");
-        Serial.println(initHash[i]); 
       }
 }
 
