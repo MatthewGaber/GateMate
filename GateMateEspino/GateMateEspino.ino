@@ -99,41 +99,38 @@ void handleSetButton() {
       }
           
     prevhashCst = prevhash.c_str();
-  }
+     //If the current hash is not the same as the previous hash go ahead and save the current hash
+    //to eeprom and decrypt the cipherSt
+      if (strcmp(prevhashCst, hashchar) != 0 && strlen(prevhashCst) == strlen(hashchar) ){
+        Serial.println("writing eeprom with current hash:");
+        for (int i = 0; i < hashSt.length(); ++i)
+          {
+            EEPROM.write(i, hashSt[i]);
+            //Serial.print("Wrote: ");
+            //Serial.println(hashSt[i]); 
+          }
 
-  //If the current hash is not the same as the previous hash go ahead and save the current hash
-  //to eeprom and decrypt the cipherSt
-  if (strcmp(prevhashCst, hashchar) != 0 && strlen(prevhashCst) == strlen(hashchar) ){
-    Serial.println("writing eeprom with current hash:");
-    for (int i = 0; i < hashSt.length(); ++i)
-      {
-        EEPROM.write(i, hashSt[i]);
-        //Serial.print("Wrote: ");
-        //Serial.println(hashSt[i]); 
-      }
+        char data_decoded[200];
+        char iv_decoded[200];
+        char temp[200];
+        cipherSt.toCharArray(temp, 200);
+        base64_decode(data_decoded, temp, cipherSt.length());
+        ivSt.toCharArray(temp, 200);
+        base64_decode(iv_decoded, temp, ivSt.length());    
+        aes.do_aes_decrypt((byte *)data_decoded, 16, out, aeskey, 128, (byte *)iv_decoded);
 
-    char data_decoded[200];
-    char iv_decoded[200];
-    char temp[200];
-    cipherSt.toCharArray(temp, 200);
-    base64_decode(data_decoded, temp, cipherSt.length());
-    ivSt.toCharArray(temp, 200);
-    base64_decode(iv_decoded, temp, ivSt.length());    
-    aes.do_aes_decrypt((byte *)data_decoded, 16, out, aeskey, 128, (byte *)iv_decoded);
-  
-    byte comp[11] = { 0x66, 0x44, 0x52, 0x6b, 0x72, 0x67, 0x4b, 0x4a, 0x5a, 0x54 };
-    
-    //If the decrypted cipherSt is equal to the byte comp
-    //go ahead and open the gate
-    if (memcmp(out, comp, sizeof(out)) == 0) {
-      digitalWrite(GATE_PIN, HIGH);
-      delay(500);
-      digitalWrite(GATE_PIN, LOW);    
-    }
+        byte comp[11] = { 0x66, 0x44, 0x52, 0x6b, 0x72, 0x67, 0x4b, 0x4a, 0x5a, 0x54 };
+
+        //If the decrypted cipherSt is equal to the byte comp
+        //go ahead and open the gate
+        if (memcmp(out, comp, sizeof(out)) == 0) {
+          digitalWrite(GATE_PIN, HIGH);
+          delay(500);
+          digitalWrite(GATE_PIN, LOW);    
+        }
     aes.clean();
-    
+    }
   }
-
 }
 
 void setup() {
